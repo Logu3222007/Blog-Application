@@ -1,0 +1,38 @@
+/* App.css */
+.app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  .app-content {
+    display: flex;
+    flex: 1;
+  }
+  
+  .sidebar-wrapper {
+    /* Sidebar wrapper to ensure it stays fixed on the left */
+    position: relative;
+    flex-shrink: 0;
+  }
+  
+  .main-content {
+    /* Main content area for routing */
+    flex-grow: 1;
+    margin-left: 250px; /* Adjust based on sidebar width */
+    padding: 20px;
+    transition: margin-left 0.3s ease;
+  }
+  
+  /* Adjust main content margin when sidebar is closed */
+  .main-content.with-sidebar-closed {
+    margin-left: 0;
+  }
+  
+  /* Ensure the sidebar is properly positioned and styled */
+  @media (max-width: 768px) {
+    .main-content {
+      margin-left: 0;
+    }
+  }
+  

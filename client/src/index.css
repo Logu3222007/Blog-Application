@@ -1,0 +1,47 @@
+/* Light Theme */
+body.light {
+    background-color: #ffffff;
+    color: #000000;
+  }
+  
+  /* Dark Theme */
+  body.dark {
+    background-color: #121212;
+    color: #ffffff;
+  }
+  
+  /* Common Styles */
+  .container {
+    padding: 20px;
+  }
+  .card {
+    transition: background-color 0.3s, color 0.3s;
+  }
+  body.light .card {
+    background-color: #f8f9fa;
+    color: #000;
+  }
+  body.dark .card {
+    background-color: #1e1e1e;
+    color: #fff;
+  }
+  
+  button {
+    transition: background-color 0.3s, color 0.3s;
+  }
+  /* Header and Footer Custom Theme Styling */
+header.bg-dark, footer.bg-dark {
+    background-color: #1e1e1e !important;
+    color: #ffffff !important;
+  }
+  
+  header.bg-light, footer.bg-light {
+    background-color: #f8f9fa !important;
+    color: #000000 !important;
+  }
+  
+  /* Adjust transitions for smooth theme switching */
+  header, footer {
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
