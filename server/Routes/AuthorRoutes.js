@@ -3,7 +3,7 @@ const route=express.Router()
 const {AuthorControllerCreatePost,AuthorControllerGetPost,
     AuthorControllerDeletePost,AuthorControllerEditPost,AuthorControllerDraftPost,
     AuthorControllerManageMyGet,AuthorControllerManagePublish,AuthorControllerViewAllPosts,
-    AuthorControllerViewBlogById
+    AuthorControllerViewBlogById,AuthorControllerEditUser,AuthorControllerProfileFetch
 }=require('../Controllers/AuthorRoutesController')
 const authorizeRoles=require('../authenticateToken')
 route.post('/createpost',authorizeRoles('admin','author'),AuthorControllerCreatePost)
@@ -15,6 +15,9 @@ route.get('/managemypost',authorizeRoles('admin','author'),AuthorControllerManag
 route.put('/managemypost/:id',authorizeRoles('admin','author'),AuthorControllerManagePublish)
 route.get('/authorviewallposts',authorizeRoles('admin','author'),AuthorControllerViewAllPosts)
 route.get('/fullblogpost/:id',authorizeRoles('admin','author'),AuthorControllerViewBlogById)
+route.put('/authoreditprofile/:id',authorizeRoles('admin','author'),AuthorControllerEditUser)
+route.get('/authoreditprofile/:id',authorizeRoles('admin','author'),AuthorControllerProfileFetch)
+
 
 
 

@@ -15,6 +15,12 @@ const AuthorControllerManageMyGet=require('./Routes/AuthorRoutes')
 const AuthorControllerManagePublish=require('./Routes/AuthorRoutes')
 const AuthorControllerViewAllPosts=require('./Routes/AuthorRoutes')
 const AuthorControllerViewBlogById=require('./Routes/AuthorRoutes')
+const AuthorControllerEditUser=require('./Routes/AuthorRoutes')
+const AuthorControllerProfileFetch=require('./Routes/AuthorRoutes')
+//command routes
+const CommandControllerPost=require('./Routes/CommandRoutes')
+const CommandControllerGet=require('./Routes/CommandRoutes')
+
 //db connection 
 connectDB();
 //middleware
@@ -33,7 +39,11 @@ app.use(AuthorControllerManageMyGet)
 app.use(AuthorControllerManagePublish)
 app.use(AuthorControllerViewAllPosts)
 app.use(AuthorControllerViewBlogById)
-
+app.use(AuthorControllerEditUser)
+app.use(AuthorControllerProfileFetch)
+//command routes
+app.use(CommandControllerPost)
+app.use(CommandControllerGet)
 app.listen(4000, () => {
     console.log('Server is Connected')
 })

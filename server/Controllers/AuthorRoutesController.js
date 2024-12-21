@@ -1,4 +1,5 @@
 const AuthorModel=require('../Models/AuthorModel')
+const UserModel=require('../Models/UserModel')
 const AuthorControllerCreatePost=async(req,res)=>{
     try {
         const {title, content} = req.body;
@@ -157,8 +158,41 @@ const AuthorControllerViewBlogById=async(req,res)=>{
   }
 
 }
+const AuthorControllerEditUser=async(req,res)=>{
+  const {name,email,bio}=req.body
+  const {id}=req.params
+  try{
+    if(name.length<3){
+      return res.status(400).json({message:"The Username Must be 3 Characters"})
+    }
+    const UpdatedUserProfile=await UserModel.findByIdAndUpdate(id,{Username:name,Bio:bio},{ new: true })
+    console.log('user: ',UpdatedUserProfile)
+    if (!UpdatedUserProfile) {
+        return res.status(404).json({ message: "User not found." });
+      }
+    res.status(200).json({message:"User Profile Updated Successfully!",UpdatedUserProfile})
+    
+    
+    }
+    catch(error){
+    res.status(500).json({message:"User Profile Updating Error",error: error.message })
+    }
+
+
+}
+const AuthorControllerProfileFetch=async(req,res)=>{
+const {id}=req.params
+try{
+  const ProfileData=await UserModel.findById(id)
+  res.status(200).json({message:"Profile Data Fetched Successfully!",ProfileData})
+}
+catch(err){
+  res.status(500).json({message:"Internal Server Error"})
+}
+}
 module.exports={AuthorControllerCreatePost,AuthorControllerGetPost,
                 AuthorControllerDeletePost,AuthorControllerEditPost,
                 AuthorControllerDraftPost,AuthorControllerManageMyGet,
                 AuthorControllerManagePublish,AuthorControllerViewAllPosts,
-                AuthorControllerViewBlogById}
+                AuthorControllerViewBlogById,AuthorControllerEditUser,
+                AuthorControllerProfileFetch,}

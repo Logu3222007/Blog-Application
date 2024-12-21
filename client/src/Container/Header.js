@@ -63,30 +63,22 @@ const Header = () => {
       ? '/regular'
       : '/'
   } className={`text-decoration-none ${theme === "dark" ? "text-white" : "text-dark"}`}>
-            <h4>Welcome, {userName || 'Guest'}!</h4>
+            <h4>Hi, {userName || 'Guest'}!</h4>
           </Link>
         </div>
         {/* hide  */}
         { url.pathname === '/login' ? <><Link to={'/register'}>
-            <button className="btn btn-outline-secondary" style={{ marginLeft: "590%" }} >
+            <button className="btn btn-outline-secondary" style={{ marginLeft: "490%" }} >
               Register
             </button>
           </Link>
-            <Link to={'/login'}>
-              <button className="btn btn-outline-secondary" style={{ marginLeft: "380%" }} >
-                Login
-              </button>
-            </Link>
-          </> : url.pathname === '/register' ? <><Link to={'/register'}>
+           
+          </> : url.pathname === '/register' ? <><Link to={'/login'}>
             <button className="btn btn-outline-secondary" style={{ marginLeft: "590%" }} >
-              Register
+              Login
             </button>
           </Link>
-            <Link to={'/login'}>
-              <button className="btn btn-outline-secondary" style={{ marginLeft: "380%" }} >
-                Login
-              </button>
-            </Link>
+            
           </> :
             <nav className="d-none d-lg-flex align-items-center gap-3" style={{ paddingLeft: "30%" }}>
               {/* Dropdown: Posts */}

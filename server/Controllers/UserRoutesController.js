@@ -17,6 +17,7 @@ const UserControllerPost = async (req, res) => {
       Username:username,
       Email:email,
       Password:HashedPassword, // In a real-world scenario, you should hash the password before saving it
+      Bio:null, 
       Role:'regular'
     });
 
@@ -48,7 +49,7 @@ const UserControllerPostLogin = async (req, res) => {
 
         // Sign JWT with role
         const token = jwt.sign(
-            { id: user._id, email: user.Email, role: user.Role ,userName:UserModel.Username }, // Include role in payload
+            { id: user._id, email: user.Email, role: user.Role ,userName:user.Username }, // Include role in payload
             process.env.JWT_SECRET,
             { expiresIn: '1h' }
         );
