@@ -2,6 +2,8 @@ const UserModel=require('../Models/UserModel')
 const bcrypt=require('bcrypt')
 const jwt=require('jsonwebtoken')
 const path=require('dotenv').config();
+const ActivityModel=require('../Models/ActivityModel')
+
 
 
 const UserControllerPost = async (req, res) => {
@@ -51,7 +53,7 @@ const UserControllerPostLogin = async (req, res) => {
         const token = jwt.sign(
             { id: user._id, email: user.Email, role: user.Role ,userName:user.Username }, // Include role in payload
             process.env.JWT_SECRET,
-            { expiresIn: '1h' }
+            { expiresIn: '3d' }
         );
 
         res.status(200).json({
@@ -62,5 +64,23 @@ const UserControllerPostLogin = async (req, res) => {
         res.status(500).json({ message: "Something went wrong." });
     }
 };
+const UserControllerActivity = async (req, res) => {
+  const { id } = req.params; // Assuming this is the activity ID or user ID
+  try {
+    // Fetch activity by ID or related to a specific user
+    const activity = await ActivityModel.find({ userId: id }).populate({path:"userId",select:"_id"})
 
-module.exports = { UserControllerPost,UserControllerPostLogin };
+    if (!activity || activity.length === 0) {
+      return res.status(404).json({ message: "No activity found for the provided user or ID." });
+    }
+
+    res.status(200).json({ message: "Activity fetched successfully!", activity });
+  } catch (err) {
+    res.status(500).json({
+      message: "Internal Server Error",
+      error: err.message, // Optional: include error details in development
+    });
+  }
+};
+
+module.exports = { UserControllerPost,UserControllerPostLogin,UserControllerActivity };

@@ -1,33 +1,30 @@
 // pages/ViewMyComments.js
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-
+import axios from "axios";
+import { jwtDecode } from "jwt-decode";
+import { toast } from "react-toastify";
 function AuthorMyComments() {
-  const [comments, setComments] = useState([]);
+  const [comments, setMyCommands] = useState([]);
+  const decodedTokenId=jwtDecode(localStorage.getItem('token'))
+    const decodedTokenIdStore=decodedTokenId.id
 
-  useEffect(() => {
-    // Fetch user's comments data from the backend (replace with your actual API call)
-    const sampleComments = [
-      {
-        id: 1,
-        postTitle: "Understanding React",
-        commentText: "Great article! Very informative.",
-        createdAt: "2024-12-10",
-      },
-      {
-        id: 2,
-        postTitle: "JavaScript ES6 Features",
-        commentText: "This was really helpful, thanks for sharing.",
-        createdAt: "2024-12-09",
-      },
-    ];
 
-    setComments(sampleComments);
-  }, []);
-
+  const FetchMyCommand = async () => {
+    try {
+      const res = await axios.get(`${process.env.REACT_APP_URL}mycommands/${decodedTokenIdStore}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`, // Include token in headers
+        },
+      });
+      setMyCommands(res.data.FetchMyCommand);
+    } catch (err) {
+      toast.error('Failed to fetch commands. Please try again.');
+    }
+  };
   const handleDelete = (id) => {
     // Handle the delete operation (replace with an actual API call)
-    setComments(comments.filter((comment) => comment.id !== id));
+    setMyCommands(comments.filter((comment) => comment.id !== id));
     alert(`Comment with ID ${id} deleted.`);
   };
 
@@ -35,7 +32,9 @@ function AuthorMyComments() {
     // Redirect to the edit page (you can implement an edit page)
     alert(`Editing comment with ID ${id}`);
   };
-
+  useEffect(() => {
+    FetchMyCommand()
+  }, []);
   return (
     <div className="container mt-4">
       <h2>Your Comments</h2>
@@ -45,13 +44,13 @@ function AuthorMyComments() {
           <p>You have not commented on any posts yet.</p>
         ) : (
           comments.map((comment) => (
-            <div className="col-md-6" key={comment.id}>
+            <div className="col-md-6" key={comment._id}>
               <div className="card mb-4">
                 <div className="card-body">
-                  <h5 className="card-title">Comment on: {comment.postTitle}</h5>
-                  <p className="card-text">{comment.commentText}</p>
+                  <h5 className="card-title">Comment on: {comment.Post.Title}</h5>
+                  <p className="card-text">{comment.Command}</p>
                   <p className="card-text">
-                    <small className="text-muted">Posted on {comment.createdAt}</small>
+                    <small className="text-white">Posted on {comment.createdAt.split('T')[0]}</small>
                   </p>
                   <button
                     className="btn btn-secondary me-2"
@@ -65,6 +64,7 @@ function AuthorMyComments() {
                   >
                     Delete
                   </button>
+                  
                 </div>
               </div>
             </div>

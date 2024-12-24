@@ -9,6 +9,7 @@ const AuthorSchema = new mongoose.Schema({
     Role: { type: String, default: 'author' },
     // Reference to the User model
     User: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+
     
     
 },{

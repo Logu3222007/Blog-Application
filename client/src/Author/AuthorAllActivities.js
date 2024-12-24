@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { toast } from "react-toastify";
-function ViewActivity() {
+function AuthorAllActivities() {
   const [activities, setActivities] = useState([]);
   const decodedTokenId=jwtDecode(localStorage.getItem('token'))
     const decodedTokenIdStore=decodedTokenId.id
@@ -26,16 +26,16 @@ function ViewActivity() {
     FetchActivity()
   },[])
 
+
   return (
     <div className="container mt-4">
-      <h2>Your Activity History</h2>
-      <div style={{display:'flex',justifyContent:"space-between"}}>
+      <h2>Your Activity History</h2><div style={{display:'flex',justifyContent:"space-between"}}>
       <p>Here is a list of your recent activities on the platform:</p>
       <button className="btn btn-primary">
                 Clear All History
               </button>
       </div>
-              <br/>
+      <br/>
       <ul className="list-group">
         {activities.map((activity) => (
           <li className="list-group-item" key={activity._id}>
@@ -46,9 +46,9 @@ function ViewActivity() {
                   {activity.action} on {new Date(activity.timestamp).toLocaleString()}
                 </p>
               </div>
-              {/* <Link to={`/${activity.type.toLowerCase()}s/${activity.id}`} className="btn btn-info btn-sm">
-                View {activity.type}
-              </Link> */}
+                {/* <Link to={`/${activity.type.toLowerCase()}s/${activity.id}`} className="btn btn-info btn-sm">
+                    View {activity.type}
+                </Link> */}
             </div>
           </li>
         ))}
@@ -57,4 +57,4 @@ function ViewActivity() {
   );
 }
 
-export default ViewActivity;
+export default AuthorAllActivities;

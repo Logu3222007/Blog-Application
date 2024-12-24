@@ -1,7 +1,28 @@
-import React from "react";
+import React ,{useState,useEffect} from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function ExplorePosts() {
+  const [ViewAllPosts,setViewAllPosts]=useState([])
+  const navigate=useNavigate()
+  const HandleViewAllPosts = async () => {
+    try {
+      const res = await axios.get(`${process.env.REACT_APP_URL}authorviewallposts`,{
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`, // Include token in headers
+        },
+      });
+      setViewAllPosts(res.data.GetViewAllPosts);
+    } catch (err) {
+      toast.error("Failed to fetch posts. Please try again.");
+    }
+  };
+  useEffect(()=>{
+    HandleViewAllPosts()
+  },[])
+
   return (
     <div className="container mt-4">
       <h2>Explore Posts</h2>
@@ -20,19 +41,14 @@ function ExplorePosts() {
           </div>
         </div>
       </div>
-      {/* Example of rendering post list (for illustration) */}
       <div className="row">
-        <div className="col-md-4">
-          <div className="card">
-            <div className="card-body">
-              <h5 className="card-title">Post Title 1</h5>
-              <p className="card-text">Short description of the post...</p>
-              <button className="btn btn-link">Read More</button>
-            </div>
-          </div>
-        </div>
-        {/* Repeat for other posts */}
-      </div>
+
+     
+    
+      
+
+</div>
+
     </div>
   );
 }

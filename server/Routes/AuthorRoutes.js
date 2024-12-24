@@ -13,10 +13,10 @@ route.patch('/managepost/:postid',authorizeRoles('admin','author'),AuthorControl
 route.put('/managepost/:id',authorizeRoles('admin','author'),AuthorControllerDraftPost)
 route.get('/managemypost',authorizeRoles('admin','author'),AuthorControllerManageMyGet)
 route.put('/managemypost/:id',authorizeRoles('admin','author'),AuthorControllerManagePublish)
-route.get('/authorviewallposts',authorizeRoles('admin','author'),AuthorControllerViewAllPosts)
-route.get('/fullblogpost/:id',authorizeRoles('admin','author'),AuthorControllerViewBlogById)
-route.put('/authoreditprofile/:id',authorizeRoles('admin','author'),AuthorControllerEditUser)
-route.get('/authoreditprofile/:id',authorizeRoles('admin','author'),AuthorControllerProfileFetch)
+route.get('/authorviewallposts',authorizeRoles('admin','author','regular'),AuthorControllerViewAllPosts)
+route.get('/fullblogpost/:id',authorizeRoles('admin','author','regular'),AuthorControllerViewBlogById)
+route.put('/authoreditprofile/:id',authorizeRoles('admin','author','regular'),AuthorControllerEditUser)
+route.get('/authoreditprofile/:id',authorizeRoles('admin','author','regular'),AuthorControllerProfileFetch)
 
 
 

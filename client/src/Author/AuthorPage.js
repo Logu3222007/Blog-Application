@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import AuthorMyActivity from "./AuthorMyActivity";
 
 function AuthorPage() {
   return (
@@ -86,6 +87,7 @@ function AuthorPage() {
           </div>
         </div>
          {/* Manage Profile */}
+         
          <div className="col-md-6">
           <div className="card mb-4">
             <div className="card-body">
@@ -101,6 +103,23 @@ function AuthorPage() {
               </Link>
             </div>
           </div>
+          
+        </div><div className="col-md-6">
+          <div className="card mb-4">
+            <div className="card-body">
+            <h5 className="card-title">Your Recent Activity</h5>
+              <p className="card-text">
+                Check the interactions and activity you've had on the platform.
+              </p>
+              <Link to={'/authorallactivities'}>
+              <button className="btn btn-primary" >
+                View Activity History
+              </button>
+              </Link>
+
+            </div>
+          </div>
+          
         </div>
       </div>
     </div>

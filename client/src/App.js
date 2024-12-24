@@ -40,6 +40,10 @@ import Header from "./Container/Header.js";
 import { ThemeProvider } from "./ThemeContext.js";
 import './index.css'
 import FullBlogPost from "./Author/FullBlogPost.js";
+import ViewAllPostsId from "./Regular/ViewAllPostsId.js";
+import AuthorAllActivities from "./Author/AuthorAllActivities.js";
+import { jwtDecode } from "jwt-decode";
+
 
 function App() {
   return (
@@ -254,7 +258,22 @@ function App() {
               </ProtectedRoute>
             }
           />
-
+          <Route
+            path="/viewallpostsid/:id"
+            element={
+              <ProtectedRoute allowedRoles={["regular"]}>
+                <ViewAllPostsId />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/authorallactivities"
+            element={
+              <ProtectedRoute allowedRoles={["author"]}>
+                <AuthorAllActivities />
+              </ProtectedRoute>
+            }
+          />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>

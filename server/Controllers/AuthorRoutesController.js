@@ -1,5 +1,6 @@
 const AuthorModel=require('../Models/AuthorModel')
 const UserModel=require('../Models/UserModel')
+const {logActivity}=require('../uility/logActivity')
 const AuthorControllerCreatePost=async(req,res)=>{
     try {
         const {title, content} = req.body;
@@ -15,12 +16,12 @@ const AuthorControllerCreatePost=async(req,res)=>{
           Content:content,
           Published:'yes',
           User: userId, // Reference the authenticated user
-
-          
         });
     
         // Save the user post to the database
         await CreatePost.save();
+        await logActivity(userId, 'Post', title, 'created'); // Log activity
+
     
         res.status(201).json({
           message: 'User Post created successfully!',
@@ -50,10 +51,12 @@ res.status(500).json({message:"Post Fetching Error",error: error.message })
 const AuthorControllerDeletePost=async(req,res)=>{
     const {postid}=req.params
     try{
-        const DeleteCreatedPost=await AuthorModel.findByIdAndDelete(postid)
+        const DeleteCreatedPost=await AuthorModel.findByIdAndDelete(postid).populate({path:"User",select:"_id"})
         if (!DeleteCreatedPost) {
             return res.status(404).json({ message: "post not found." });
           }
+          await logActivity(DeleteCreatedPost.User._id, 'Post', DeleteCreatedPost.Title, 'deleted'); // Log activity
+
         res.status(200).json({message:"Post Deleted Successfully!"})
         }
         catch(error){
@@ -66,10 +69,12 @@ const AuthorControllerEditPost=async(req,res)=>{
     const {Title,Content}=req.body;
  
     try{
-        const EditCreatedPost=await AuthorModel.findByIdAndUpdate(postid,{Title,Content},{ new: true })
+        const EditCreatedPost=await AuthorModel.findByIdAndUpdate(postid,{Title,Content},{ new: true }).populate({path:"User",select:"_id"})
         if (!EditCreatedPost) {
             return res.status(404).json({ message: "post not found." });
           }
+          await logActivity(EditCreatedPost.User._id, 'Post', EditCreatedPost.Title, 'updated'); // Log activity
+
         res.status(200).json({message:"Post Updated Successfully!",EditCreatedPost})
         }
         catch(error){
@@ -126,7 +131,10 @@ const AuthorControllerManagePublish=async(req,res)=>{
 const AuthorControllerViewAllPosts=async(req,res)=>{
   try{
     // const GetCreatedPost=await AuthorModel.find({Published:'yes'})
-    const GetViewAllPosts = await AuthorModel.find({Published: 'yes' }).populate('User', 'Username Email').exec();
+    const GetViewAllPosts = await AuthorModel.find({Published: 'yes' }).populate({
+      path:'User',
+      select:'Username Email'
+    })
 
   
   if (GetViewAllPosts.length === 0) {

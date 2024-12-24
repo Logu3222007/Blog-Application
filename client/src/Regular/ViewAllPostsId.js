@@ -1,9 +1,10 @@
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-const FullBlogPost = () => {
+const ViewAllPostsId = () => {
   const [getBlog, setGetBlog] = useState({});
   const [commandInput, setCommandInput] = useState(''); // Command input state
   const [commandHistory, setCommandHistory] = useState([]); // Command history state
@@ -208,4 +209,4 @@ const FullBlogPost = () => {
   );
 };
 
-export default FullBlogPost;
+export default ViewAllPostsId;

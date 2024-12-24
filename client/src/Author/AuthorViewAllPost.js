@@ -36,7 +36,7 @@ function AuthorViewAllPost() {
               <div className="card mb-4">
                 <div className="card-body">
                   <h5 className="card-title">{post.Title}</h5>
-                  <h6 className="card-subtitle mb-2 text-muted">By {post.author}</h6>
+                  <h6 className="card-subtitle mb-2 text-white">By {post.User.Username}</h6>
                   <p className="card-text">{post.Content}</p>
                   <p className="card-text">
                     <small className="text-white">Posted on {post.createdAt.split('T')[0]}</small>
