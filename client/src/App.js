@@ -46,6 +46,7 @@ import AuthorAllActivities from "./Author/AuthorAllActivities.js";
 import { jwtDecode } from "jwt-decode";
 import RegularHeader from "./Container/RegularHeader.js";
 import RedirectIfAuthenticated from "./Authentication/RedirectIfAuthenticated .js";
+import RootRedirect from "./Authentication/RootRedirect.js";
 
 
 function App() {
@@ -81,6 +82,8 @@ function App() {
       {renderHeader()}
       <main className="container mt-4">
         <Routes>
+            <Route path="/" element={<RootRedirect />} />
+
           <Route path="/register" element={<Register />} />
 <Route path="/login" element={
             <RedirectIfAuthenticated>
