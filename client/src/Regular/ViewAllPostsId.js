@@ -1,13 +1,13 @@
-
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
-import { toast } from 'react-toastify';
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const ViewAllPostsId = () => {
   const [getBlog, setGetBlog] = useState({});
-  const [commandInput, setCommandInput] = useState(''); // Command input state
+  const [commandInput, setCommandInput] = useState(""); // Command input state
   const [commandHistory, setCommandHistory] = useState([]); // Command history state
+  const [visibleCount, setVisibleCount] = useState(3); // Visible commands count
   const navigate = useNavigate();
   const { id } = useParams(); // Get blog post ID from URL
 
@@ -16,67 +16,56 @@ const ViewAllPostsId = () => {
     try {
       const res = await axios.get(`${process.env.REACT_APP_URL}fullblogpost/${id}`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`, // Include token in headers
+          Authorization: `Bearer ${localStorage.getItem("token")}`, // Include token in headers
         },
       });
       setGetBlog(res.data.GetBlogById);
     } catch (err) {
-      toast.error('Failed to fetch posts. Please try again.');
+      toast.error("Failed to fetch posts. Please try again.");
     }
   };
+
   const FetchCommand = async () => {
     try {
       const res = await axios.get(`${process.env.REACT_APP_URL}commands/${id}`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`, // Include token in headers
+          Authorization: `Bearer ${localStorage.getItem("token")}`, // Include token in headers
         },
       });
       setCommandHistory(res.data.FetchCommand);
     } catch (err) {
-      toast.error('Failed to fetch commands. Please try again.');
+      toast.error("Failed to fetch commands. Please try again.");
     }
   };
-  // Handle command submission
-  const handleCommandSubmit = async(e) => {
-    e.preventDefault();    try {
-      const res = await axios.post(`${process.env.REACT_APP_URL}commands`, {commandInput,id},{
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`, // Include token in headers
-        },
-      });
-      if (res.status === 201) {
-        setCommandInput('')
-        FetchCommand()
 
-        toast.success('User command created successfully!');
+  // Handle command submission
+  const handleCommandSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post(
+        `${process.env.REACT_APP_URL}commands`,
+        { commandInput, id },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`, // Include token in headers
+          },
+        }
+      );
+      if (res.status === 201) {
+        setCommandInput("");
+        FetchCommand();
+        toast.success("User command created successfully!");
       }
     } catch (err) {
       toast.error("Failed to create command. Please try again.");
     }
+  };
 
+  // Load more commands
+  const loadMoreCommands = () => {
+    setVisibleCount((prev) => prev + 3); // Show 3 more commands
   };
-  
-  const handleEditCommand = (index) => {
-    const commandToEdit = commandHistory[index];
-    const newCommand = prompt(
-      `Edit the command for "${commandToEdit.command}":`,
-      commandToEdit.command
-    );
-    if (newCommand !== null && newCommand.trim() !== "") {
-      const updatedHistory = [...commandHistory];
-      updatedHistory[index].command = newCommand;
-      setCommandHistory(updatedHistory);
-      toast.success("Command updated successfully!");
-    }
-  };
-  const handleDeleteCommand = (index) => {
-    if (window.confirm("Are you sure you want to delete this command?")) {
-      const updatedHistory = commandHistory.filter((_, i) => i !== index);
-      setCommandHistory(updatedHistory);
-      toast.success("Command deleted successfully!");
-    }
-  };
-    
+
   // Effect to fetch blog post when the component loads
   useEffect(() => {
     HandleBlogbyId();
@@ -93,18 +82,20 @@ const ViewAllPostsId = () => {
               <h1 className="card-title">{getBlog.Title}</h1>
               <p className="text-muted">
                 <span className="author">
-                  By {getBlog?.User?.Username || 'Unknown Author'}
+                  By {getBlog?.User?.Username || "Unknown Author"}
                 </span>
-                <span className="published-date ms-3">{new Date(getBlog.createdAt).toLocaleDateString()}</span>
+                <span className="published-date ms-3">
+                  {new Date(getBlog.createdAt).toLocaleDateString()}
+                </span>
               </p>
               <div className="mt-4">
                 <p>{getBlog.Content}</p>
               </div>
-              <br/>
+              <br />
               <div className="mt-3 text-start">
                 <button
-                  className="btn btn-primary "
-                  onClick={() => navigate('/authorexplorepost')}
+                  className="btn btn-primary"
+                  onClick={() => navigate("/viewallposts")}
                 >
                   &larr; Back
                 </button>
@@ -134,75 +125,49 @@ const ViewAllPostsId = () => {
               </form>
             </div>
           </div>
-{/* Command History Section */}
-<div className="card mt-3 shadow-sm">
-  <div className="card-body">
-    <h5 className="card-title">Command History</h5>
-    {commandHistory.length === 0 ? (
-      <p className="text-muted">No commands entered yet.</p>
-    ) : (
-      <div>
-        <ul className="list-group">
-          {commandHistory.map((entry, index) => (
-            <li
-              key={index}
-              className="list-group-item d-flex justify-content-between align-items-center"
-            >
-              <div>
-                <p className="mb-1">
-                  <span className="fw-bold text-primary">Command:</span>
-                  <span className="text-dark"> {entry.Command}</span>
-                </p>
-                <small className="text-muted">
-                  <span className="fw-bold">By:</span> {entry.User.Username || 'Unknown User'}
-                  <span className="mx-1">|</span>
-                  <span className="fw-bold">At:</span>{' '}
-                  {new Date(entry.createdAt).toLocaleString()}
-                </small>
-              </div>
 
-              <div className="dropdown">
-                <button
-                  className="btn btn-light btn-sm dropdown-toggle "
-                  type="button"
-                  id={`commandOptions-${index}`}
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                  style={{padding:"2px",paddingRight:"4px"}}
-                >
-                  <i className="bi bi-three-dots-vertical"></i>
-                </button>
-                <ul
-                  className="dropdown-menu dropdown-menu-end"
-                  aria-labelledby={`commandOptions-${index}`}
-                >
-                  <li>
+          {/* Command History Section */}
+          <div className="card mt-3 shadow-sm">
+            <div className="card-body">
+              <h5 className="card-title">Command History</h5>
+              {commandHistory.length === 0 ? (
+                <p className="text-muted">No commands entered yet.</p>
+              ) : (
+                <div>
+                  <ul className="list-group">
+                    {commandHistory.slice(0, visibleCount).map((entry, index) => (
+                      <li
+                        key={index}
+                        className="list-group-item d-flex justify-content-between align-items-center"
+                      >
+                        <div>
+                          <p className="mb-1">
+                            <span className="fw-bold text-primary">Command:</span>
+                            <span className="text-dark"> {entry.Command}</span>
+                          </p>
+                          <small className="text-muted">
+                            <span className="fw-bold">By:</span>{" "}
+                            {entry.User.Username || "Unknown User"}
+                            <span className="mx-1">|</span>
+                            <span className="fw-bold">At:</span>{" "}
+                            {new Date(entry.createdAt).toLocaleString()}
+                          </small>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                  {visibleCount < commandHistory.length && (
                     <button
-                      className="dropdown-item"
-                      onClick={() => handleEditCommand(index)}
+                      className="btn btn-link mt-2"
+                      onClick={loadMoreCommands}
                     >
-                      Edit
+                      View More
                     </button>
-                  </li>
-                  <li>
-                    <button
-                      className="dropdown-item text-danger"
-                      onClick={() => handleDeleteCommand(index)}
-                    >
-                      Delete
-                    </button>
-                  </li>
-                </ul>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
-    )}
-  </div>
-</div>
-
-
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </div>

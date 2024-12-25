@@ -1,12 +1,13 @@
 // pages/ViewMyComments.js
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 import { toast } from "react-toastify";
 
 function ViewMyComments() {
   const [comments, setMyCommands] = useState([]);
+  const navigate=useNavigate()
   const decodedTokenId=jwtDecode(localStorage.getItem('token'))
     const decodedTokenIdStore=decodedTokenId.id
 
@@ -53,7 +54,7 @@ function ViewMyComments() {
                   <p className="card-text">
                     <small className="text">Posted on {comment.createdAt.split("T")[0]}</small>
                   </p>
-                  <button
+                  {/* <button
                     className="btn btn-secondary me-2"
                     onClick={() => handleEdit(comment.id)}
                   >
@@ -64,13 +65,16 @@ function ViewMyComments() {
                     onClick={() => handleDelete(comment.id)}
                   >
                     Delete
-                  </button>
+                  </button> */}
                 </div>
               </div>
             </div>
           ))
         )}
       </div>
+      <button className="back-button btn btn-primary mb-1" onClick={() => navigate('/mycomments')}>
+             &larr; Back
+           </button>
     </div>
   );
 }

@@ -82,5 +82,22 @@ const UserControllerActivity = async (req, res) => {
     });
   }
 };
+const UserControllerClearActivity=async(req,res)=>{
+  const { id } = req.params; // Assuming this is the activity ID or user ID
+  try {
+    // Fetch activity by ID or related to a specific user
+    const activity = await ActivityModel.deleteMany({ userId: id }).populate({path:"userId",select:"_id"})
 
-module.exports = { UserControllerPost,UserControllerPostLogin,UserControllerActivity };
+    if (!activity || activity.length === 0) {
+      return res.status(404).json({ message: "No activity found for the provided user or ID." });
+    }
+
+    res.status(200).json({ message: "Activity Deleted successfully!" });
+  } catch (err) {
+    res.status(500).json({
+      message: "Internal Server Error",
+      error: err.message, // Optional: include error details in development
+    });
+  }
+}
+module.exports = { UserControllerPost,UserControllerPostLogin,UserControllerActivity,UserControllerClearActivity};

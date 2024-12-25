@@ -15,7 +15,7 @@ function AuthorExplorePost() {
         });
         setViewAllPosts(res.data.GetViewAllPosts);
       } catch (err) {
-        toast.error("Failed to fetch posts. Please try again.");
+        console.log("Failed to fetch posts. Please try again.");
       }
     };
     useEffect(()=>{
@@ -25,7 +25,7 @@ function AuthorExplorePost() {
 
   return (
     <div className="container mt-4">
-      <h2>Explore Posts</h2>
+      <h2 style={{paddingBottom:"20px"}}>Explore Posts</h2>
       <div className="row">
         <div className="col-md-12">
           <div className="card mb-4">
@@ -64,7 +64,7 @@ function AuthorExplorePost() {
   
 </div>
 <div className="blog-footer">
-           <button className="back-button btn btn-primary mb-1" onClick={() => navigate('/author')}>
+           <button className="back-button btn btn-primary mb-1"style={{marginTop:"20px"}} onClick={() => navigate('/author')}>
              &larr; Back
            </button>
          </div>

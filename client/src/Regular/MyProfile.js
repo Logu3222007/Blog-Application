@@ -80,6 +80,10 @@ function MyProfile() {
           </div>
         </div>
       </div>
+      
+<button className="back-button btn btn-primary mb-1"  style={{marginTop:"15px"}}onClick={() => navigate('/regular')}>
+             &larr; Back
+           </button>
     </div>
   );
 }

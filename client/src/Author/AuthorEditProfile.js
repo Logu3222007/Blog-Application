@@ -116,6 +116,10 @@ function AuthorEditProfile() {
           Save Changes
         </button>
       </form>
+      
+      <button className="btn btn-primary " style={{marginTop:"20px"}} onClick={() => navigate('/authormyprofile')}>
+                  &larr; Back
+                </button>
     </div>
   );
 }

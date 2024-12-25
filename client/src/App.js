@@ -1,5 +1,6 @@
 // App.js
-import React from "react";
+import React,{useState,useEffect} from "react";
+import { useNavigate } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
 import Home from "./Authentication/Home.js";
 import Register from "./Authentication/Register.js";
@@ -43,16 +44,43 @@ import FullBlogPost from "./Author/FullBlogPost.js";
 import ViewAllPostsId from "./Regular/ViewAllPostsId.js";
 import AuthorAllActivities from "./Author/AuthorAllActivities.js";
 import { jwtDecode } from "jwt-decode";
+import RegularHeader from "./Container/RegularHeader.js";
 
 
 function App() {
+  const [role, setRole] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const decodedToken = jwtDecode(token);
+        setRole(decodedToken.role); // Assuming your token has a 'role' field
+      } catch (error) {
+        console.error("Error decoding token:", error);
+        localStorage.removeItem("token");
+        navigate("/login");
+      }
+    }
+  }, [navigate]);
+
+  const renderHeader = () => {
+    if (role === "author") {
+      return <Header />;
+    }
+     else {
+      return <RegularHeader />; // Default header for unauthenticated users
+    }
+  };
+
   return (
     <ThemeProvider>
     <div>
-      <Header />
+      {renderHeader()}
       <main className="container mt-4">
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
 

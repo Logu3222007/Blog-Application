@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate, } from "react-router-dom";
 import "../Style/Header.css";
 import { jwtDecode } from "jwt-decode";
 import LogoutIcon from '@mui/icons-material/Logout';
+import LogoutComponent from "../Authentication/Logout";
 
 
 const Header = () => {
@@ -46,25 +47,22 @@ const Header = () => {
       // Remove the token from localStorage
       localStorage.removeItem('token');
       navigate('/login')
+      setUserName()
       console.log("User logged out.");
     } else {
       console.log("User canceled the logout.");
     }
   };
+  
   return (
     <header className={`py-2 px-3 ${theme === "dark" ? "bg-dark text-white" : "bg-light text-dark"}`}>
       <div className="container d-flex justify-content-between align-items-center">
         {/* Logo Section */}
         <div className="logo">
-          <Link  to={
-    role === 'author'
-      ? '/author'
-      : role === 'regular'
-      ? '/regular'
-      : '/'
+          <Link  to={'/author'
   } className={`text-decoration-none ${theme === "dark" ? "text-white" : "text-dark"}`}>
-            <h4>Hi, {userName || 'Guest'}!</h4>
-          </Link>
+            <h4>{userName>8?userName.substring(0,8):userName || 'Guest'}!</h4>
+            </Link>
         </div>
         {/* hide  */}
         { url.pathname === '/login' ? <><Link to={'/register'}>
@@ -219,18 +217,23 @@ const Header = () => {
                     </button>
                   </Link>
                 ) : (
-                  <button className="btn btn-outline-secondary" onClick={handleLogout}>
-                    <LogoutIcon />
-                  </button>
+                  <button className="btn btn-outline-none" >
+              <LogoutComponent resetUser={setUserName} />
+              </button>
                 )
               }
 
             </nav>
         }
-        <button className="btn btn-outline-secondary d-lg-none" onClick={handleMenuToggle} style={{ marginLeft: "110px" }}>
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        {/* logout */}
+        {<button 
+  className={`btn btn-outline-secondary d-lg-none ${!localStorage.getItem('token') ? 'd-none' : ''}`} 
+  onClick={handleMenuToggle} 
+  style={{ marginLeft: "110px" }}
+>
+  <span className="navbar-toggler-icon"></span>
+</button>
+
+        }{/* logout */}
         {
           url.pathname === '/login' ? (
             <Link to={'/register'}>
@@ -245,15 +248,15 @@ const Header = () => {
               </button>
             </Link>
           ) : (
-            <button className="btn btn-outline-secondary d-lg-none">
-              <LogoutIcon />
-            </button>
+            <button className="btn btn-outline-none d-lg-none">
+              <LogoutComponent resetUser={setUserName} />
+              </button>
           )
         }
       </div>
 
       {/* Popup Menu */}
-      {menuOpen && (
+      {menuOpen &&  (
         <div
           className={`popup-menu position-fixed top-0 start-0 w-100 h-100 d-flex flex-column ${theme === "dark" ? "bg-dark text-white" : "bg-light text-dark"}`}
           style={{ zIndex: 1050 }}
@@ -263,12 +266,14 @@ const Header = () => {
             <button className="btn btn-close btn-light" onClick={handleMenuToggle}></button>
           </div>
           <div className="d-flex flex-column p-3">
-            <Link to="/posts/manage" className="dropdown-item" onClick={handleMenuToggle}>Manage My Posts</Link>
-            <Link to="/posts/create" className="dropdown-item" onClick={handleMenuToggle}>Create New Post</Link>
-            <Link to="/posts/explore" className="dropdown-item" onClick={handleMenuToggle}>Explore Posts</Link>
-            <Link to="/comments/manage" className="dropdown-item" onClick={handleMenuToggle}>Manage Comments</Link>
-            <Link to="/comments/my" className="dropdown-item" onClick={handleMenuToggle}>My Comments</Link>
-            <Link to="/profile" className="dropdown-item" onClick={handleMenuToggle}>My Profile</Link>
+            <Link to="/managemypost" className="dropdown-item" onClick={handleMenuToggle}>Manage My Posts</Link>
+            <Link to="/createpost" className="dropdown-item" onClick={handleMenuToggle}>Create New Post</Link>
+            <Link to="/authorexplorepost" className="dropdown-item" onClick={handleMenuToggle}>Explore Posts</Link>
+            <Link to="/managecomments" className="dropdown-item" onClick={handleMenuToggle}>Manage Comments</Link>
+            <Link to="/authormycomments" className="dropdown-item" onClick={handleMenuToggle}>My Comments</Link>
+            <Link to="/authormyprofile" className="dropdown-item" onClick={handleMenuToggle}>My Profile</Link>
+            <Link to="/authorallactivities" className="dropdown-item" onClick={handleMenuToggle}>My Activity</Link>
+            
             <button className="btn btn-secondary mt-3" onClick={() => {
               toggleTheme();
               handleMenuToggle();

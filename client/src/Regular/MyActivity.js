@@ -1,7 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function MyActivity() {
+  const navigate=useNavigate()
   return (
     <div className="container mt-4">
       <h2>My Activity</h2>
@@ -23,16 +24,10 @@ function MyActivity() {
         </div>
       </div>
       {/* Example of displaying activity list (for illustration) */}
-      <div className="row">
-        <div className="col-md-12">
-          <div className="card mb-2">
-            <div className="card-body">
-              <h6 className="card-title">Commented on Post Title 1</h6>
-              <p className="card-text">You left a comment: "Great post!"</p>
-            </div>
-          </div>
-        </div>
-      </div>
+      
+<button className="back-button btn btn-primary mb-1" onClick={() => navigate('/regular')}>
+             &larr; Back
+           </button>
     </div>
   );
 }

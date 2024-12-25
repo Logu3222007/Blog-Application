@@ -24,6 +24,8 @@ const CommandControllerGet=require('./Routes/CommandRoutes')
 const CommandControllerMyCommands=require('./Routes/CommandRoutes')
 const CommandControllerViewCommands=require('./Routes/CommandRoutes')
 const CommandControllerViewDelete=require('./Routes/CommandRoutes')
+//histroy
+const UserControllerClearActivity=require('./Routes/UserRoutes')
 //db connection 
 connectDB();
 //middleware
@@ -51,6 +53,8 @@ app.use(CommandControllerGet)
 app.use(CommandControllerMyCommands)
 app.use(CommandControllerViewCommands)
 app.use(CommandControllerViewDelete)
+//history
+app.use(UserControllerClearActivity)
 app.listen(4000, () => {
     console.log('Server is Connected')
 })

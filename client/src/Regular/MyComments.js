@@ -1,7 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function MyComments() {
+  const navigate=useNavigate()
   return (
     <div className="container mt-4">
       <h2>My Comments</h2>
@@ -23,18 +24,10 @@ function MyComments() {
         </div>
       </div>
       {/* Example of rendering comment list (for illustration) */}
-      <div className="row">
-        <div className="col-md-12">
-          <div className="card mb-2">
-            <div className="card-body">
-              <h6 className="card-title">Comment on Post Title 1</h6>
-              <p className="card-text">Your comment content goes here...</p>
-              <button className="btn btn-warning mb-1">Edit</button>
-              <button className="btn btn-danger mb-1">Delete</button>
-            </div>
-          </div>
-        </div>
-      </div>
+     
+<button className="back-button btn btn-primary mb-1" onClick={() => navigate('/regular')}>
+             &larr; Back
+           </button>
     </div>
   );
 }

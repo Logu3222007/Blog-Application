@@ -71,7 +71,7 @@ function EditProfile() {
     }
   }, [navigate]);
 
-  return (
+  return (<>
     <div className="container mt-4">
       <h2>Edit Profile</h2>
       <form onSubmit={handleSubmit}>
@@ -116,10 +116,16 @@ function EditProfile() {
         </div>
         <button type="submit" className="btn btn-primary">
           Save Changes
-        </button>
+        </button><br/>
+        
+<button className="back-button btn btn-primary " style={{marginTop:"15px"}} onClick={() => navigate('/myprofile')}>
+             &larr; Back
+           </button>
       </form>
+      
     </div>
-  );
+    
+           </>);
 }
 
 export default EditProfile;

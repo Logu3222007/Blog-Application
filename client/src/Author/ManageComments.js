@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 function ManageComments() {
   return (
     <div className="container mt-4">
-      <h2>Manage Comments</h2>
+      <h2 style={{paddingBottom:"20px"}}>Manage Comments</h2>
       <div className="row">
         <div className="col-md-12">
           <div className="card mb-4">
@@ -23,18 +23,9 @@ function ManageComments() {
         </div>
       </div>
       {/* Example of displaying comments (for illustration) */}
-      <div className="row">
-        <div className="col-md-12">
-          <div className="card mb-2">
-            <div className="card-body">
-              <h6 className="card-title">Comment on Post Title 1</h6>
-              <p className="card-text">This is a great post! I really enjoyed it.</p>
-              <button className="btn btn-warning mb-1">Reply</button>
-              <button className="btn btn-danger mb-1">Delete</button>
-            </div>
-          </div>
-        </div>
-      </div>
+<Link to="/author" className="btn btn-primary">
+        Back
+      </Link>      
     </div>
   );
 }

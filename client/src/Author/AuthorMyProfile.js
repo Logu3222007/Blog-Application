@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 
@@ -7,6 +7,7 @@ function AuthorMyProfile() {
   const [name,setName]=useState()
   const [email,setEmail]=useState()
   const [bio,setBio]=useState()
+  const navigate=useNavigate()
   const decodedTokenId=jwtDecode(localStorage.getItem('token'))
   const decodedTokenIdStore=decodedTokenId.id
 
@@ -38,7 +39,7 @@ function AuthorMyProfile() {
   },[])
   return (
     <div className="container mt-4">
-      <h2>My Profile</h2>
+      <h2 style={{paddingBottom:"20px"}}>My Profile</h2>
       <div className="row">
         <div className="col-md-12">
           <div className="card mb-4">
@@ -68,6 +69,9 @@ function AuthorMyProfile() {
           </div>
         </div>
       </div>
+      <button className="btn btn-primary " style={{marginTop:"20px"}} onClick={() => navigate('/author')}>
+                  &larr; Back
+                </button>
     </div>
   );
 }

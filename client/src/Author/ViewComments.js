@@ -95,8 +95,8 @@ function ViewComments() {
           ))
         )}
       </div>
-      <Link to="/author" className="btn btn-primary">
-        Back to Posts
+      <Link to="/managecomments" className="btn btn-primary">
+        Back
       </Link>
       
     </div>

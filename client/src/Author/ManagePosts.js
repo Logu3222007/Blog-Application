@@ -178,7 +178,7 @@ const handleDraft=async(id)=>{
       </Link>
       
 <div className="blog-footer"><br/>
-           <button className="back-button btn btn-primary mb-1" onClick={() => navigate('/author')}>
+           <button className="back-button btn btn-primary mb-1" onClick={() => navigate('/managemypost')}>
              &larr; Back
            </button>
          </div>

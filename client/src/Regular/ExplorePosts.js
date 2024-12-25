@@ -48,7 +48,9 @@ function ExplorePosts() {
       
 
 </div>
-
+<button className="back-button btn btn-primary mb-1" onClick={() => navigate('/regular')}>
+             &larr; Back
+           </button>
     </div>
   );
 }

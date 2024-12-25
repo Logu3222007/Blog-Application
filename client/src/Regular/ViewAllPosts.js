@@ -51,6 +51,10 @@ function ViewAllPosts() {
           ))
         )}
       </div>
+      
+<button className="back-button btn btn-primary mb-1" onClick={() => navigate('/exploreposts')}>
+             &larr; Back
+           </button>
     </div>
   );
 }

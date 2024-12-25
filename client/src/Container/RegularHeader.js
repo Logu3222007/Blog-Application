@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate, } from "react-router-dom";
 import "../Style/Header.css";
 import { jwtDecode } from "jwt-decode";
 import LogoutIcon from '@mui/icons-material/Logout';
+import LogoutComponent from "../Authentication/Logout";
 
 
 const RegularHeader = () => {
@@ -14,7 +15,7 @@ const RegularHeader = () => {
   const [userName, setUserName] = useState(null); // State for username
   const [role, setrole] = useState()
   const url = useLocation()
-  console.log('role ', role)
+  console.log('role ', userName)
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -51,19 +52,16 @@ const RegularHeader = () => {
       console.log("User canceled the logout.");
     }
   };
+  
   return (
     <header className={`py-2 px-3 ${theme === "dark" ? "bg-dark text-white" : "bg-light text-dark"}`}>
       <div className="container d-flex justify-content-between align-items-center">
         {/* Logo Section */}
         <div className="logo">
-          <Link  to={
-    role === 'author'
-      ? '/author'
-      : role === 'regular'
-      ? '/regular'
-      : '/'
-  } className={`text-decoration-none ${theme === "dark" ? "text-white" : "text-dark"}`}>
-            <h4>Hi, {userName || 'Guest'}!</h4>
+          <Link  to={'/regular'} className={`text-decoration-none ${theme === "dark" ? "text-white" : "text-dark"}`}>
+            <h4>{userName>8?userName.substring(0,8):userName || 'Guest'}!</h4>
+            {/* <h4>{(userName && userName.substring(0, 2)) || 'Guest'}!</h4> */}
+
           </Link>
         </div>
         {/* hide  */}
@@ -104,7 +102,7 @@ const RegularHeader = () => {
                   >
                     <li>
                       <Link
-                        to="/explorepost"
+                        to="/exploreposts"
                         className="dropdown-item"
                         style={{
                           color: theme === "dark" ? "#ffffff" : "#000000",
@@ -114,6 +112,30 @@ const RegularHeader = () => {
                         Explore Posts
                       </Link>
                     </li>
+                    {/* <li>
+                      <Link
+                        to="/createpost"
+                        className="dropdown-item"
+                        style={{
+                          color: theme === "dark" ? "#ffffff" : "#000000",
+                          backgroundColor: theme === "dark" ? "transparent" : "transparent",
+                        }}
+                      >
+                        Create a New Post
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/authorexplorepost"
+                        className="dropdown-item"
+                        style={{
+                          color: theme === "dark" ? "#ffffff" : "#000000",
+                          backgroundColor: theme === "dark" ? "transparent" : "transparent",
+                        }}
+                      >
+                        Explore Posts
+                      </Link>
+                    </li> */}
                   </ul>
 
                 )}
@@ -160,9 +182,10 @@ const RegularHeader = () => {
               </div>
 
               {/* My Profile */}
-              <Link to="/authormyprofile" className={`btn ${theme === "dark" ? "btn-dark text-white" : "btn-light text-dark"}`}>
+              <Link to="/myprofile" className={`btn ${theme === "dark" ? "btn-dark text-white" : "btn-light text-dark"}`}>
                 My Profile
               </Link>
+              
 
               {/* Theme Toggle */}
               <button className="btn btn-outline-secondary" onClick={toggleTheme}>
@@ -183,17 +206,23 @@ const RegularHeader = () => {
                     </button>
                   </Link>
                 ) : (
-                  <button className="btn btn-outline-secondary" onClick={handleLogout}>
-                    <LogoutIcon />
+                  <button className="btn btn-outline-none" >
+                                  <LogoutComponent resetUser={setUserName} />
+
                   </button>
                 )
               }
 
             </nav>
         }
-        <button className="btn btn-outline-secondary d-lg-none" onClick={handleMenuToggle} style={{ marginLeft: "110px" }}>
+          <button 
+          className={`btn btn-outline-secondary d-lg-none ${!localStorage.getItem('token') ? 'd-none' : ''}`} 
+          onClick={handleMenuToggle} 
+          style={{ marginLeft: "110px" }}
+        >
           <span className="navbar-toggler-icon"></span>
         </button>
+        
         {/* logout */}
         {
           url.pathname === '/login' ? (
@@ -209,17 +238,17 @@ const RegularHeader = () => {
               </button>
             </Link>
           ) : (
-            <button className="btn btn-outline-secondary d-lg-none">
-              <LogoutIcon />
+            <button className="btn btn-outline-none d-lg-none">
+              <LogoutComponent resetUser={setUserName} />
             </button>
           )
         }
       </div>
 
       {/* Popup Menu */}
-      {menuOpen && (
+      {menuOpen &&  (
         <div
-          className={`popup-menu position-fixed top-0 start-0 w-100 h-100 d-flex flex-column ${theme === "dark" ? "bg-dark text-white" : "bg-light text-dark"}`}
+          className={`popup-menu position-fixed top-0 start-0 w-100 h-100  d-flex flex-column ${theme === "dark" ? "bg-dark text-white" : "bg-light text-dark"}`}
           style={{ zIndex: 1050 }}
         >
           <div className="d-flex justify-content-between align-items-center p-3">
@@ -227,12 +256,14 @@ const RegularHeader = () => {
             <button className="btn btn-close btn-light" onClick={handleMenuToggle}></button>
           </div>
           <div className="d-flex flex-column p-3">
-            <Link to="/posts/manage" className="dropdown-item" onClick={handleMenuToggle}>Manage My Posts</Link>
-            <Link to="/posts/create" className="dropdown-item" onClick={handleMenuToggle}>Create New Post</Link>
-            <Link to="/posts/explore" className="dropdown-item" onClick={handleMenuToggle}>Explore Posts</Link>
-            <Link to="/comments/manage" className="dropdown-item" onClick={handleMenuToggle}>Manage Comments</Link>
-            <Link to="/comments/my" className="dropdown-item" onClick={handleMenuToggle}>My Comments</Link>
-            <Link to="/profile" className="dropdown-item" onClick={handleMenuToggle}>My Profile</Link>
+            <Link to="/exploreposts" className="dropdown-item" onClick={handleMenuToggle}>Explore Posts</Link>
+            <Link to="/mycomments" className="dropdown-item" onClick={handleMenuToggle}>My Comments</Link>
+            <Link to="/myprofile" className="dropdown-item" onClick={handleMenuToggle}>My Profile</Link>
+            <Link to="/myactivity" className="dropdown-item" onClick={handleMenuToggle}>My Activity</Link>
+            {/* <Link to="/authormycomments" className="dropdown-item" onClick={handleMenuToggle}>My Comments</Link>
+            <Link to="/authormyprofile" className="dropdown-item" onClick={handleMenuToggle}>My Profile</Link>
+            <Link to="/authorallactivities" className="dropdown-item" onClick={handleMenuToggle}>My Activity</Link>
+             */}
             <button className="btn btn-secondary mt-3" onClick={() => {
               toggleTheme();
               handleMenuToggle();

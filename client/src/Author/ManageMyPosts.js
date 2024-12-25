@@ -14,7 +14,7 @@ function ManageMyPosts() {
       });
       setdraft(res.data.GetDraftPost);
     } catch (err) {
-      toast.error("Failed to fetch posts. Please try again.");
+      console.log("No posts available");
     }
   };
   const handlePublish=async(id)=>{
@@ -41,7 +41,7 @@ function ManageMyPosts() {
   },[])
   return (
     <div className="container mt-4">
-  <h2>Manage My Posts</h2>
+  <h2 style={{paddingBottom:"20px"}}>Manage My Posts</h2>
   <div className="row">
     <div className="col-md-12">
       <div className="card mb-4">
@@ -73,8 +73,13 @@ function ManageMyPosts() {
             <button className="btn btn-success mb-1"onClick={()=>handlePublish(item._id)}>Publish</button>
           </div>
         </div>
+      
       </div>
     ))}
+    {
+      draft.length===0&&<h4>No posts available</h4>
+    }
+  
   </div>
   
 <div className="blog-footer"><br/>
