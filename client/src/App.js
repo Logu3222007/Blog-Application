@@ -81,7 +81,6 @@ function App() {
       {renderHeader()}
       <main className="container mt-4">
         <Routes>
-          <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
 <Route path="/login" element={
             <RedirectIfAuthenticated>
