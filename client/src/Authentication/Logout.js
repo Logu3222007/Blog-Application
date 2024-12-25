@@ -36,7 +36,7 @@ const LogoutComponent = ({resetUser}) => {
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title">Confirm Logout</h5>
+                <h5 className="modal-title" style={{color:`${localStorage.getItem('dark')?'white':'black'}`}}>Confirm Logout</h5>
                 <button type="button" className="btn-close" onClick={cancelLogout}></button>
               </div>
               <div className="modal-body">
