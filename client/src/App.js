@@ -45,6 +45,7 @@ import ViewAllPostsId from "./Regular/ViewAllPostsId.js";
 import AuthorAllActivities from "./Author/AuthorAllActivities.js";
 import { jwtDecode } from "jwt-decode";
 import RegularHeader from "./Container/RegularHeader.js";
+import RedirectIfAuthenticated from "./Authentication/RedirectIfAuthenticated .js";
 
 
 function App() {
@@ -82,8 +83,10 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-
+<Route path="/login" element={
+            <RedirectIfAuthenticated>
+              <Login />
+            </RedirectIfAuthenticated>} />
           {/* Public Routes */}
           <Route path="/exploreposts" element={<ExplorePosts />} />
           <Route path="/viewallposts" element={<ViewAllPosts />} />
