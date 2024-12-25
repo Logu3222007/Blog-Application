@@ -16,7 +16,7 @@ function ExplorePosts() {
       });
       setViewAllPosts(res.data.GetViewAllPosts);
     } catch (err) {
-      toast.error("Failed to fetch posts. Please try again.");
+      console.log("Failed to fetch posts. Please try again.");
     }
   };
   useEffect(()=>{
