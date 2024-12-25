@@ -20,7 +20,7 @@ function ManagePosts() {
       setPosts(res.data.GetCreatedPost);
     } catch (err) {
       if(posts.length===0){
-        toast.error("Failed to fetch posts. Please try again.");
+        console.log("Failed to fetch posts. Please try again.");
       }
     }
   };
