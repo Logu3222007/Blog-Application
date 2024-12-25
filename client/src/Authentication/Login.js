@@ -63,7 +63,7 @@ function Login() {
 
   return (
     <div className="col-md-6 mx-auto" style={{ paddingTop: "90px", paddingBottom: "50px" }}>
-      <h2>Logins</h2>
+      <h2>Login</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label htmlFor="email" className="form-label">
