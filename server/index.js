@@ -29,7 +29,14 @@ const UserControllerClearActivity=require('./Routes/UserRoutes')
 //db connection 
 connectDB();
 //middleware
-app.use(cors())
+const corsOptions = {
+    origin: 'https://blog-application-3-9u4p.onrender.com',  // Frontend URL
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],  // Allow the necessary HTTP methods
+    allowedHeaders: ['Content-Type', 'Authorization'],  // Allow specific headers
+  };
+  
+  app.use(cors(corsOptions));  // Use the CORS configuration
+
 app.use(express.json())
 //routes
 app.use(UserRouteGet)
